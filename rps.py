@@ -8,7 +8,13 @@ class Action(IntEnum):
     SCISSORS = 2
 
 
-def user_selection():
+class Score():
+    def __init__(self, user_score=0, computer_score=0) -> None:
+        self.user_score = user_score
+        self.computer_score = computer_score
+
+
+def user_selection() -> IntEnum:
     while True:
         user_action = input("Rock, Paper, Scissor?: ")
         if user_action.lower() == "rock":
@@ -25,13 +31,15 @@ def user_selection():
     return user_action
 
 
-def computer_selection():
+def computer_selection() -> IntEnum:
     possible_actions = [Action.ROCK, Action.PAPER, Action.SCISSORS]
     computer_action = random.choice(possible_actions)
     return computer_action
 
 
-def main():
+def game():
+    name = input("Enter your name: ")
+    score = Score()
     while True:
         user_action = user_selection()
         computer_action = computer_selection()
@@ -42,25 +50,35 @@ def main():
         elif user_action == Action.ROCK:
             if computer_action == Action.PAPER:
                 print("Paper covers rock, you lose!")
+                score.computer_score += 1
                 pass
             else:
                 print("Rock smashes scissor, you win!")
+                score.user_score += 1
                 pass
         elif user_action == Action.PAPER:
             if computer_action == Action.ROCK:
                 print("Paper covers rock, you win!")
+                score.user_score += 1
                 pass
             else:
                 print("Scissor cuts paper, you lose!")
+                score.computer_score += 1
                 pass
         else:
             if computer_action == Action.PAPER:
                 print("Scissor cuts paper, you win!")
+                score.user_score += 1
                 pass
             else:
                 print("Rock smashes scissor, you lose!")
+                score.computer_score += 1
                 pass
 
+        print("\nSCORE")
+        print("-----")
+        print(f"{name}: {score.user_score}")
+        print(f"Computer: {score.computer_score}")
         while True:
             choice = input("Would you like to play again? Y/N: ")
             if choice.lower() == "n":
@@ -76,4 +94,4 @@ def main():
 
 
 if "__main__" == __name__:
-    main()
+    game()
